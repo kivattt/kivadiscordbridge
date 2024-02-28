@@ -1,0 +1,23 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url 'https://jitpack.io/' }
+    }
+    dependencies {
+        classpath('com.github.Fox2Code.FoxLoader:dev:1.2.38')
+    }
+}
+
+apply plugin: 'foxloader.dev'
+
+version '1.0.0'
+
+foxloader {
+    // forceReload = true
+    modId = "kivadiscordbridge"
+    modName = "KivaDiscordBridge"
+    modVersion = project.version
+    modDesc = "Discord bridge server mod"
+    modWebsite = "https://github.com/kivattt/kivadiscordbridge"
+    serverMod = "com.kiva.kivadiscordbridge.KivaDiscordBridgeServer"
+}
