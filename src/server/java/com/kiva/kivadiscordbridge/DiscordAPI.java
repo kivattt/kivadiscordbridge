@@ -78,6 +78,28 @@ public class DiscordAPI {
         return ret.toString();
     }
 
+    private String removeColorCodes(final String str) {
+        StringBuilder ret = new StringBuilder();
+
+        boolean ignoreNextChar = false;
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+
+            if (c == '§' && i != str.length() - 1) {
+                ignoreNextChar = true;
+                continue;
+            }
+
+            if (!ignoreNextChar) {
+                ret.append(c);
+            } else {
+                ignoreNextChar = false;
+            }
+        }
+
+        return ret.toString();
+    }
+
     public void setToken(final String newToken) {
         token = newToken;
     }
@@ -90,7 +112,7 @@ public class DiscordAPI {
         if (token == null || channel == null)
             return;
 
-        Thread sendThread = new Thread(() -> postRequest("/channels/" + channel + "/messages", messageToJSONPostBody(escapeForMarkdown(message, null, null))));
+        Thread sendThread = new Thread(() -> postRequest("/channels/" + channel + "/messages", messageToJSONPostBody(escapeForMarkdown(removeColorCodes(message), null, null))));
         sendThread.start();
     }
 
@@ -98,7 +120,7 @@ public class DiscordAPI {
         if (token == null || channel == null)
             return;
 
-        Thread sendThread = new Thread(() -> postRequest("/channels/" + channel + "/messages", messageToJSONPostBody(escapeForMarkdown(message, allowMarkDownStart, allowMarkDownEnd))));
+        Thread sendThread = new Thread(() -> postRequest("/channels/" + channel + "/messages", messageToJSONPostBody(escapeForMarkdown(removeColorCodes(message), allowMarkDownStart, allowMarkDownEnd))));
         sendThread.start();
     }
 }
