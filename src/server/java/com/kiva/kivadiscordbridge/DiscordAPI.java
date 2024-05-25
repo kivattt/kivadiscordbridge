@@ -51,9 +51,11 @@ public class DiscordAPI {
 
     // Handrolled because I don't care
     private String messageToJSONPostBody(final String message) {
-        String ret = "{\"content\": \"";
-        ret += getMessageSanitizedForJSONStringValue(message);
-        return ret + "\"}";
+        String ret = "{\"content\": ";
+        ret += "\"" + getMessageSanitizedForJSONStringValue(message) + "\"";
+        // https://discord.com/developers/docs/resources/channel#allowed-mentions-object-allowed-mentions-reference
+        ret += ", \"allowed_mentions\": {\"parse\": []}";
+        return ret + "}";
     }
 
     // Adds backslashes before characters like * and _
